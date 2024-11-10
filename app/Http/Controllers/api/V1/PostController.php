@@ -86,20 +86,19 @@ class PostController extends Controller
      */
     public function destroy(User $user, Post $post)
     {
-        if ($post->user == $user)
-            $post->delete();
+        $post->delete();
         return "You've successfully soft deleted this post";
     }
 
     public function restore($id)
     {
-        Post::find($id)->restore();
+        Post::withTrashed()->find($id)->restore();
         return "You've successfully resotred this post";
     }
 
     public function forceDelete($id)
     {
-        Post::find($id)->forceDelete();
+        Post::withTrashed()->find($id)->forceDelete();
         return "You've successfully deleted this post forever";
     }
 

@@ -52,7 +52,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment)
     {
-        //
+        return new CommentResource($comment);
     }
 
     /**
@@ -83,13 +83,13 @@ class CommentController extends Controller
 
     public function restore($id)
     {
-        Comment::find($id)->restore();
+        Comment::withTrashed()->find($id)->restore();
         return "You've successfully resotred this comment";
     }
 
     public function forceDelete($id)
     {
-        Comment::find($id)->forceDelete();
+        Comment::withTrashed()->find($id)->forceDelete();
         return "You've successfully deleted this comment forever";
     }
 
