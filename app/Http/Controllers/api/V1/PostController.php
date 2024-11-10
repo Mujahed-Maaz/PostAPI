@@ -12,6 +12,8 @@ use App\Http\Resources\V1\PostCollection;
 use App\Http\Resources\V1\PostResource;
 use App\Models\User;
 
+use function Symfony\Component\Clock\now;
+
 class PostController extends Controller
 {
     /**
@@ -45,7 +47,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        return new PostResource(Post::create(array_merge($request->all(), ['user_id' => auth()->id()])));
+        return new PostResource(Post::create(array_merge($request->all(), ['user_id' => auth()->id(), 'published_at' => now()])));
     }
 
     /**

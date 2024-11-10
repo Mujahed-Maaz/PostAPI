@@ -11,6 +11,8 @@ use App\Http\Resources\V1\CommentCollection;
 use App\Http\Resources\V1\CommentResource;
 use Illuminate\Http\Request;
 
+use function Symfony\Component\Clock\now;
+
 class CommentController extends Controller
 {
     /**
@@ -42,7 +44,7 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        return new CommentResource(Comment::create(array_merge($request->all(), ['user_id' => auth()->id()])));
+        return new CommentResource(Comment::create(array_merge($request->all(), ['user_id' => auth()->id(), 'published_at' => now()])));
     }
 
     /**
