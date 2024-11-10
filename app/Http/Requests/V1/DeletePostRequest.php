@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DeletePostRequest extends FormRequest
@@ -12,7 +13,8 @@ class DeletePostRequest extends FormRequest
     public function authorize(): bool
     {
         $user = auth()->user();
-        return $user->tokenCan('delete');
+        $post = Post::find($this->route('post'));
+        return $user->tokenCan('delete') || ($post->user === $user); //admin or author
     }
 
     /**

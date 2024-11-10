@@ -45,7 +45,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        return new PostResource(Post::create($request->all()));
+        return new PostResource(Post::create(array_merge($request->all(), ['user_id' => auth()->id()])));
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdatePostRequest extends FormRequest
@@ -11,7 +12,9 @@ class UpdatePostRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = auth()->user();
+        $post = Post::find($this->route('post'));
+        return ($post->user === $user); //only the author can edit the post
     }
 
     /**

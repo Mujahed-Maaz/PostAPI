@@ -42,7 +42,7 @@ class CommentController extends Controller
      */
     public function store(StoreCommentRequest $request)
     {
-        //
+        return new CommentResource(Comment::create(array_merge($request->all(), ['user_id' => auth()->id()])));
     }
 
     /**

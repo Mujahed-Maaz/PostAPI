@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\V1;
 
+use App\Models\Comment;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateCommentRequest extends FormRequest
@@ -11,7 +12,9 @@ class UpdateCommentRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = auth()->user();
+        $comment = Comment::find($this->route('comment'));
+        return ($comment->user === $user); // only the author can edit the comment
     }
 
     /**

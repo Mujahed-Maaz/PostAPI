@@ -14,6 +14,8 @@
                     <ul>
 
                         <li>{{ $name }}</li>
+
+                        <!-- show soft deleted post! -->
                     </ul>
                 </div>
             </div>
