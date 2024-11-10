@@ -90,4 +90,11 @@ class CommentController extends Controller
         Comment::find($id)->forceDelete();
         return "You've successfully deleted this comment forever";
     }
+
+    public function getSoftDeletedComments()
+    {
+        $softDeletedComments = Comment::onlyTrashed()->get();
+
+        return view('admin', compact('softDeletedComments'));
+    }
 }

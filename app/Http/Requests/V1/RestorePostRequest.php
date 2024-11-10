@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\V1;
 
-use App\Models\Post;
 use Illuminate\Foundation\Http\FormRequest;
 
-class DeletePostRequest extends FormRequest
+class RestorePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,8 +12,7 @@ class DeletePostRequest extends FormRequest
     public function authorize(): bool
     {
         $user = auth()->user();
-        $post = Post::find($this->route('post'));
-        return $user->tokenCan('soft-delete') || ($post->user === $user); //admin or author
+        return $user->tokenCan('restore');
     }
 
     /**

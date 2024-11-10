@@ -100,4 +100,11 @@ class PostController extends Controller
         Post::find($id)->forceDelete();
         return "You've successfully deleted this post forever";
     }
+
+    public function getSoftDeletedPosts()
+    {
+        $softDeletedPosts = Post::onlyTrashed()->get();
+
+        return view('admin', compact('softDeletedPosts'));
+    }
 }

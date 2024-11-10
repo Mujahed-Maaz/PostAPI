@@ -15,7 +15,7 @@ class DeleteCommentRequest extends FormRequest
         $user = auth()->user();
         $comment = Comment::find($this->route('comment'));
         $post = $comment->post;
-        return $user->tokenCan('delete') || ($comment->user === $user) || ($post->user); //admin or author
+        return $user->tokenCan('soft-delete') || ($comment->user === $user) || ($post->user); //admin or author
     }
 
     /**

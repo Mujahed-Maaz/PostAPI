@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\api\V1\PostController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -9,10 +10,10 @@ Route::get('/', function () {
 });
 Route::get('/dashboard', function () {
     $user = Auth::user();
-    $user->tokens()->delete();
+    $user->tokens()->truncate();
 
-    $admin = $user->createToken('admin-token', ['create',  'update', 'soft-delete', 'delete', 'restore']);
-    $author = $user->createToken('author-token', ['create', 'update', 'soft-delete']);
+    $admin = $user->createToken('admin-token', ['create',  'soft-delete', 'delete', 'restore']);
+    $author = $user->createToken('author-token', ['create', 'soft-delete']);
     $viewer = $user->createToken('view-token', ['none']);
 
     $tokens = $user->tokens;
@@ -34,9 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/admin', function () {
-    return view('admin', ['name' => 'Mujahed']);
-})->middleware('auth:sanctum');
+Route::get('/admin', [PostController::class, 'getSoftDeletedPosts'])->middleware('auth:sanctum');
 
 require __DIR__ . '/auth.php';
 
