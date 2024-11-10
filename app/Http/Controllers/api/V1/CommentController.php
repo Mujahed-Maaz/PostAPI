@@ -94,7 +94,9 @@ class CommentController extends Controller
     public function getSoftDeletedComments()
     {
         $softDeletedComments = Comment::onlyTrashed()->get();
-
-        return view('admin', compact('softDeletedComments'));
+        if (auth()->user()->tokenCan('delete'))
+            return new CommentCollection($softDeletedComments);
+        else
+            return abort(403);
     }
 }

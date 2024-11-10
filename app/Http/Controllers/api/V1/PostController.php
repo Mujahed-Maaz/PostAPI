@@ -104,7 +104,9 @@ class PostController extends Controller
     public function getSoftDeletedPosts()
     {
         $softDeletedPosts = Post::onlyTrashed()->get();
-
-        return view('admin', compact('softDeletedPosts'));
+        if (auth()->user()->tokenCan('delete'))
+            return new PostCollection($softDeletedPosts);
+        else
+            return abort(403);
     }
 }

@@ -16,4 +16,6 @@ Route::group(['prefix' => 'v1', 'namespace' => 'App\Http\Controllers\api\V1', 'm
     Route::put('posts/restore/{id}', [PostController::class, 'restore']);
     Route::delete('comments/force-delete/{id}', [CommentController::class, 'forceDelete']);
     Route::put('comments/restore/{id}', [CommentController::class, 'restore']);
+    Route::get('admin/deletedposts', [PostController::class, 'getSoftDeletedPosts']);
+    Route::get('admin/deletedcomments', [CommentController::class, 'getSoftDeletedComments']);
 })->middleware('auth:sanctum');
